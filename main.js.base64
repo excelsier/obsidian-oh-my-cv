@@ -1,0 +1,7 @@
+NOTE: This is a placeholder file. The actual main.js file will be included in GitHub releases. This approach is used because the compiled main.js file is too large for direct inclusion in the repository, but is required for BRAT installation.
+
+When installing with BRAT, please use the latest GitHub release instead of the raw repository.
+
+BRAT installation URL: https://github.com/excelsier/obsidian-oh-my-cv
+
+For information on BRAT installation, see the README.md file.
