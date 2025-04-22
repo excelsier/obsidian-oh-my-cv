@@ -8,9 +8,9 @@
 # npm
 node_modules
 
-# Don't include the compiled main.js file in the repo.
-# They should be uploaded to GitHub releases instead.
-main.js
+# For production we'd exclude main.js and upload to GitHub releases instead.
+# But for BRAT testing, we need to include main.js
+# main.js
 
 # Exclude sourcemaps
 *.map

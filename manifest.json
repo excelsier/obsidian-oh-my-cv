@@ -7,5 +7,6 @@
 	"author": "OhMyCV Developer",
 	"authorUrl": "https://github.com/Renovamen/oh-my-cv",
 	"fundingUrl": "",
-	"isDesktopOnly": false
+	"isDesktopOnly": false,
+	"repo": "local"
 }
