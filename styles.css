@@ -1,0 +1,634 @@
+/* Oh My CV - Obsidian Plugin Styles */
+
+/* Main container - for view-based UI */
+.oh-my-cv-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--background-primary);
+}
+
+/* Header section */
+.oh-my-cv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: var(--background-secondary);
+}
+
+.oh-my-cv-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.oh-my-cv-controls {
+    display: flex;
+    gap: 10px;
+}
+
+/* Button styles */
+.oh-my-cv-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: var(--interactive-normal);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+    transition: all 0.2s ease;
+}
+
+.oh-my-cv-button:hover {
+    background-color: var(--interactive-hover);
+}
+
+.oh-my-cv-button.is-primary {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border-color: var(--interactive-accent);
+}
+
+.oh-my-cv-button.is-primary:hover {
+    background-color: var(--interactive-accent-hover);
+}
+
+.oh-my-cv-button svg,
+.oh-my-cv-button .lucide {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+}
+
+/* Content container */
+.oh-my-cv-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Editor section */
+.oh-my-cv-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--background-modifier-border);
+    overflow: hidden;
+}
+
+.oh-my-cv-editor-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    background-color: var(--background-secondary-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.oh-my-cv-editor-content {
+    flex: 1;
+    overflow: auto;
+    padding: 15px;
+}
+
+/* Preview section */
+.oh-my-cv-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.oh-my-cv-preview-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    background-color: var(--background-secondary-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.oh-my-cv-preview-content {
+    flex: 1;
+    overflow: auto;
+    padding: 15px;
+    background-color: var(--background-primary);
+}
+
+/* CV content styles - preview */
+.oh-my-cv-preview-content {
+    font-family: var(--font-text);
+    color: var(--text-normal);
+    line-height: 1.5;
+}
+
+.oh-my-cv-preview-content h1,
+.oh-my-cv-preview-content h2,
+.oh-my-cv-preview-content h3,
+.oh-my-cv-preview-content h4,
+.oh-my-cv-preview-content h5,
+.oh-my-cv-preview-content h6 {
+    margin-top: 1.25em;
+    margin-bottom: 0.75em;
+    color: var(--text-normal);
+}
+
+.oh-my-cv-preview-content h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--background-modifier-border);
+    padding-bottom: 0.25em;
+}
+
+.oh-my-cv-preview-content h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.oh-my-cv-preview-content p {
+    margin-bottom: 1em;
+}
+
+.oh-my-cv-preview-content ul,
+.oh-my-cv-preview-content ol {
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+}
+
+.oh-my-cv-preview-content li {
+    margin-bottom: 0.5em;
+}
+
+.oh-my-cv-preview-content a {
+    color: var(--text-accent);
+    text-decoration: none;
+}
+
+.oh-my-cv-preview-content a:hover {
+    text-decoration: underline;
+}
+
+.oh-my-cv-preview-content blockquote {
+    border-left: 3px solid var(--interactive-accent);
+    padding-left: 1em;
+    margin-left: 0;
+    margin-right: 0;
+    color: var(--text-muted);
+}
+
+.oh-my-cv-preview-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.oh-my-cv-preview-content table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.oh-my-cv-preview-content th,
+.oh-my-cv-preview-content td {
+    border: 1px solid var(--background-modifier-border);
+    padding: 0.5em;
+}
+
+.oh-my-cv-preview-content th {
+    background-color: var(--background-secondary);
+    font-weight: bold;
+}
+
+/* Export modal */
+.oh-my-cv-export-modal {
+    max-width: 800px;
+    width: 80vw;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.oh-my-cv-export-modal .modal-content {
+    padding: 0;
+    overflow: hidden;
+}
+
+.oh-my-cv-export-header {
+    padding: 15px 20px;
+    background-color: var(--background-secondary);
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.oh-my-cv-export-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.oh-my-cv-export-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.oh-my-cv-form-row {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.oh-my-cv-form-label {
+    flex: 0 0 150px;
+    font-weight: 500;
+}
+
+.oh-my-cv-form-control {
+    flex: 1;
+}
+
+.oh-my-cv-export-footer {
+    padding: 15px 20px;
+    background-color: var(--background-secondary-alt);
+    border-top: 1px solid var(--background-modifier-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Tabs in export modal */
+.oh-my-cv-tabs {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--background-modifier-border);
+    display: flex;
+}
+
+.oh-my-cv-tab {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+}
+
+.oh-my-cv-tab:hover {
+    color: var(--text-normal);
+}
+
+.oh-my-cv-tab.active {
+    color: var(--text-accent);
+    border-bottom-color: var(--text-accent);
+    font-weight: 500;
+}
+
+.oh-my-cv-tab-content {
+    position: relative;
+}
+
+.oh-my-cv-tab-pane {
+    display: none;
+}
+
+.oh-my-cv-tab-pane.active {
+    display: block;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Preview container in export dialog */
+.oh-my-cv-page-preview {
+    border: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    margin-left: 20px;
+    flex: 0 0 200px;
+    height: 283px; /* A4 ratio */
+    position: relative;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.oh-my-cv-page-preview.landscape {
+    height: 141px;
+    flex: 0 0 200px;
+}
+
+.oh-my-cv-page-content {
+    position: absolute;
+    border: 1px dashed var(--text-muted);
+    background-color: rgba(var(--interactive-accent-rgb), 0.05);
+}
+
+.oh-my-cv-margin-indicator {
+    position: absolute;
+    background-color: rgba(var(--text-accent-rgb), 0.5);
+    pointer-events: none;
+}
+
+.oh-my-cv-margin-indicator.top {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.oh-my-cv-margin-indicator.right {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 2px;
+}
+
+.oh-my-cv-margin-indicator.bottom {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.oh-my-cv-margin-indicator.left {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 2px;
+}
+
+/* Slider control */
+.oh-my-cv-slider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.oh-my-cv-slider input[type="range"] {
+    flex: 1;
+}
+
+.oh-my-cv-slider-value {
+    flex: 0 0 50px;
+    text-align: center;
+    padding: 3px 5px;
+    background-color: var(--background-secondary);
+    border-radius: 3px;
+    font-size: 0.8rem;
+}
+
+/* Template manager */
+.oh-my-cv-templates {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.oh-my-cv-template-item {
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: var(--background-primary);
+    transition: all 0.2s ease;
+}
+
+.oh-my-cv-template-item:hover {
+    border-color: var(--interactive-accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.oh-my-cv-template-preview {
+    height: 120px;
+    background-color: var(--background-secondary-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.oh-my-cv-template-info {
+    padding: 12px;
+}
+
+.oh-my-cv-template-name {
+    margin: 0 0 5px 0;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.oh-my-cv-template-description {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+.oh-my-cv-template-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 12px;
+    border-top: 1px solid var(--background-modifier-border);
+    gap: 8px;
+}
+
+.oh-my-cv-template-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.oh-my-cv-template-tag {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    background-color: var(--background-modifier-border);
+    color: var(--text-muted);
+}
+
+/* Empty state */
+.oh-my-cv-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.oh-my-cv-empty-state-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.oh-my-cv-empty-state-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--text-normal);
+}
+
+.oh-my-cv-empty-state-description {
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+/* Font selector */
+.oh-my-cv-font-selector {
+    position: relative;
+}
+
+.oh-my-cv-font-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 6px 10px;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.oh-my-cv-font-button:hover {
+    border-color: var(--interactive-accent);
+}
+
+.oh-my-cv-font-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    z-index: 100;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.oh-my-cv-font-dropdown.is-open {
+    display: block;
+}
+
+.oh-my-cv-font-option {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.oh-my-cv-font-option:hover {
+    background-color: var(--background-secondary-alt);
+}
+
+/* Color picker */
+.oh-my-cv-color-picker {
+    display: flex;
+    align-items: center;
+}
+
+.oh-my-cv-color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid var(--background-modifier-border);
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.oh-my-cv-color-input {
+    flex: 1;
+}
+
+/* Toggle switch */
+.oh-my-cv-toggle {
+    position: relative;
+    display: inline-block;
+    width: 36px;
+    height: 20px;
+}
+
+.oh-my-cv-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.oh-my-cv-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--background-modifier-border);
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.oh-my-cv-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--background-primary);
+    border-radius: 50%;
+    transition: .4s;
+}
+
+.oh-my-cv-toggle input:checked + .oh-my-cv-toggle-slider {
+    background-color: var(--interactive-accent);
+}
+
+.oh-my-cv-toggle input:checked + .oh-my-cv-toggle-slider:before {
+    transform: translateX(16px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .oh-my-cv-content {
+        flex-direction: column;
+    }
+    
+    .oh-my-cv-editor,
+    .oh-my-cv-preview {
+        flex: none;
+        height: 50%;
+    }
+    
+    .oh-my-cv-editor {
+        border-right: none;
+        border-bottom: 1px solid var(--background-modifier-border);
+    }
+    
+    .oh-my-cv-form-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .oh-my-cv-form-label {
+        flex: none;
+        margin-bottom: 5px;
+    }
+    
+    .oh-my-cv-page-preview {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+}
