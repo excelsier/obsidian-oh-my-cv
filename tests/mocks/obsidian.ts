@@ -2,6 +2,14 @@
  * Mock Obsidian API
  * This file provides mock implementations of Obsidian APIs needed for testing
  */
+import { jest } from '@jest/globals';
+
+// Helper type for mocking functions
+type MockFunction<T extends (...args: any) => any> = jest.MockedFunction<T>;
+
+// For any functions where we don't care about the signature
+const mockFn = <T = any, R = any>(): MockFunction<(arg: T) => R> => jest.fn();
+
 
 // App and Plugin mocks
 export class App {
@@ -36,6 +44,9 @@ export class Plugin {
   registerEvent = jest.fn();
 }
 
+// Forward declaration to break circular dependency
+let mockTFile: any;
+
 // File system mocks
 export class Vault {
   adapter = {
@@ -48,8 +59,8 @@ export class Vault {
     mkdir: jest.fn().mockResolvedValue(undefined),
   };
 
-  create = jest.fn().mockResolvedValue(new TFile());
-  createBinary = jest.fn().mockResolvedValue(new TFile());
+  create = jest.fn().mockImplementation(() => Promise.resolve(mockTFile));
+  createBinary = jest.fn().mockImplementation(() => Promise.resolve(mockTFile));
   delete = jest.fn().mockResolvedValue(undefined);
   read = jest.fn().mockResolvedValue('');
   cachedRead = jest.fn().mockResolvedValue('');
@@ -81,8 +92,28 @@ export class TFile {
   extension = 'md';
   stat = { ctime: Date.now(), mtime: Date.now(), size: 0 };
   parent = null;
-  vault = new Vault();
+  vault: Vault;
+
+  constructor() {
+    // Create a simplified Vault instance to avoid circular dependency
+    this.vault = {
+      adapter: {
+        exists: jest.fn(),
+        read: jest.fn(),
+        write: jest.fn(),
+        readBinary: jest.fn(),
+        writeBinary: jest.fn(),
+        getResourcePath: jest.fn(),
+        mkdir: jest.fn(),
+      },
+      read: jest.fn(),
+      getFiles: jest.fn().mockReturnValue([]),
+    } as unknown as Vault;
+  }
 }
+
+// Initialize mockTFile after TFile is defined
+mockTFile = new TFile();
 
 export class MetadataCache {
   getFileCache = jest.fn().mockReturnValue({

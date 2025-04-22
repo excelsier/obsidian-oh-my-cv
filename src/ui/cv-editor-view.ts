@@ -74,22 +74,33 @@ export class CVEditorView extends ItemView {
   async onOpen(): Promise<void> {
     try {
       // Add the container class to the content element
+      this.contentEl.empty();
       this.contentEl.addClass('oh-my-cv-container');
       this.mainContainerEl = this.contentEl;
+      
+      // Determine if we're in side panel mode by checking width
+      const isSidePanel = this.contentEl.clientWidth < 500;
+      if (isSidePanel) {
+        this.contentEl.addClass('oh-my-cv-side-panel');
+      }
       
       // Create the header
       this.createHeader();
       
       // Create the main content area
-      this.createMainContent();
+      this.createMainContent(isSidePanel);
       
       // Create the status bar
       this.createStatusBar();
       
       // Register events
       this.registerEvents();
+      
+      // Load CSS styles to ensure proper rendering
+      this.loadStyles();
     } catch (error) {
       console.error('Error opening CV editor view:', error);
+      new Notice(`Error opening CV editor: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -105,6 +116,81 @@ export class CVEditorView extends ItemView {
     
     // Clear the content
     this.contentEl.empty();
+  }
+  
+  /**
+   * Load CSS styles needed for proper rendering
+   * This ensures the CV preview looks correct
+   */
+  private loadStyles(): void {
+    // Add required CSS styles for proper rendering
+    const styleEl = document.createElement('style');
+    styleEl.id = 'oh-my-cv-runtime-styles';
+    styleEl.textContent = `
+      .oh-my-cv-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        overflow: hidden;
+      }
+      
+      .oh-my-cv-side-panel {
+        font-size: 0.85em;
+      }
+      
+      .oh-my-cv-main-content {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        overflow: hidden;
+        height: calc(100% - 100px);
+      }
+      
+      .oh-my-cv-side-panel-content {
+        flex-direction: column;
+      }
+      
+      .oh-my-cv-editor-container,
+      .oh-my-cv-preview-container {
+        flex: 1;
+        padding: 10px;
+        overflow: auto;
+      }
+      
+      .oh-my-cv-side-panel-editor,
+      .oh-my-cv-side-panel-preview {
+        width: 100%;
+        max-height: 40%;
+      }
+      
+      .oh-my-cv-editor {
+        width: 100%;
+        height: calc(100% - 80px);
+        font-family: var(--font-monospace);
+        resize: none;
+        border: 1px solid var(--background-modifier-border);
+        border-radius: 4px;
+        padding: 10px;
+      }
+      
+      .oh-my-cv-preview {
+        height: 100%;
+        overflow: auto;
+        padding: 20px;
+        border: 1px solid var(--background-modifier-border);
+        border-radius: 4px;
+        background-color: var(--background-primary);
+      }
+    `;
+    
+    // Remove any existing style element
+    const existingStyle = document.getElementById('oh-my-cv-runtime-styles');
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+    
+    // Add to document head
+    document.head.appendChild(styleEl);
   }
 
   /**
@@ -155,33 +241,46 @@ export class CVEditorView extends ItemView {
   /**
    * Create the main content area with editor and preview
    */
-  private createMainContent(): void {
-    this.mainContainerEl = this.contentEl.createDiv({ cls: 'oh-my-cv-container' });
-    
-    // Create header
-    this.createHeader();
+  private createMainContent(isSidePanel: boolean = false): void {
+    const mainContentEl = this.contentEl.createDiv({ cls: 'oh-my-cv-main-content' });
     
     // Create editor container
-    const editorContainer = this.mainContainerEl.createDiv({ cls: 'oh-my-cv-editor-container' });
+    const editorContainerEl = mainContentEl.createDiv({ cls: 'oh-my-cv-editor-container' });
+    editorContainerEl.createEl('h3', { text: 'Markdown Editor' });
     
-    // Create toolbar
-    this.toolbarEl = editorContainer.createDiv({ cls: 'oh-my-cv-toolbar' });
-    this.createToolbar();
+    // Modify layout based on whether we're in side panel mode
+    if (isSidePanel) {
+      mainContentEl.addClass('oh-my-cv-side-panel-content');
+      editorContainerEl.addClass('oh-my-cv-side-panel-editor');
+    }
+    
+    // Editor area
+    this.editorEl = editorContainerEl.createEl('textarea', { 
+      cls: 'oh-my-cv-editor',
+      attr: { spellcheck: 'true' } 
+    });
     
     // Add template selector to editor container
-    const templateSelectorContainer = editorContainer.createDiv({ cls: 'oh-my-cv-template-selector-wrapper' });
+    const templateSelectorContainer = editorContainerEl.createDiv({ cls: 'oh-my-cv-template-selector-wrapper' });
     new TemplateSelector(templateSelectorContainer, (template) => {
       this.applyTemplate(template.id);
     });
     
-    // Create editor
-    this.editorEl = editorContainer.createEl('textarea', { cls: 'oh-my-cv-editor' });
+    // Toolbar for formatting
+    this.toolbarEl = editorContainerEl.createDiv({ cls: 'oh-my-cv-toolbar' });
+    this.createToolbar();
     
-    // Create preview
-    this.previewEl = this.mainContainerEl.createDiv({ cls: 'oh-my-cv-preview' });
+    // Create preview container
+    const previewContainerEl = mainContentEl.createDiv({ cls: 'oh-my-cv-preview-container' });
+    previewContainerEl.createEl('h3', { text: 'Live Preview' });
     
-    // Create status bar
-    this.createStatusBar();
+    // Add special class for side panel preview
+    if (isSidePanel) {
+      previewContainerEl.addClass('oh-my-cv-side-panel-preview');
+    }
+    
+    // Create the preview element
+    this.previewEl = previewContainerEl.createDiv({ cls: 'oh-my-cv-preview' });
   }
 
   /**

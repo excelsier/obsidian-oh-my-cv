@@ -1,6 +1,7 @@
 /**
  * Unit tests for the Settings Service
  */
+import { jest, describe, beforeEach, test, expect } from '@jest/globals';
 import { SettingsService } from '../../src/services/settings-service';
 import { CVTemplate } from '../../src/core/types';
 import { App, Plugin } from '../mocks/obsidian';
@@ -16,12 +17,13 @@ describe('SettingsService', () => {
     // Setup mocks
     app = new App();
     plugin = new Plugin(app, { id: 'obsidian-oh-my-cv' });
+    // Create a properly typed mock for loadData
+    plugin.loadData = jest.fn<() => Promise<OhMyCVSettings | null>>().mockResolvedValue(null);
     settingsService = new SettingsService(plugin);
   });
 
   test('should initialize with default settings', async () => {
-    // Setup
-    (plugin.loadData as jest.Mock).mockResolvedValue(null);
+    // Setup - loadData returns null, so defaults will be used
     
     // Execute
     await settingsService.loadSettings();
@@ -53,7 +55,8 @@ describe('SettingsService', () => {
       defaultPageSize: 'LETTER',
       defaultMargins: { top: 20, right: 20, bottom: 20, left: 20 },
     };
-    (plugin.loadData as jest.Mock).mockResolvedValue(customSettings);
+    // Reset the mock to return custom settings
+    plugin.loadData = jest.fn<() => Promise<OhMyCVSettings>>().mockResolvedValue(customSettings);
     
     // Execute
     await settingsService.loadSettings();
@@ -96,17 +99,9 @@ describe('SettingsService', () => {
     expect(settingsService.getSettings().defaultPageSize).toBe('LETTER');
   });
 
-  test('should manage templates correctly', () => {
-    // Setup
-    settingsService.updateSettings({
-      ...DEFAULT_SETTINGS,
-      templates: [
-        { id: 'template1', name: 'Template 1', content: '# Template 1 Content' },
-      ],
-    });
-    
-    // Execute & Verify
-    expect(settingsService.getTemplates()).toHaveLength(1);
+  test('should manage templates correctly', async () => {
+    // Get the current number of templates (includes default templates)
+    const initialTemplateCount = settingsService.getTemplates().length;
     
     // Add a new template
     settingsService.addTemplate({
@@ -116,23 +111,19 @@ describe('SettingsService', () => {
       description: 'Test template description'
     } as CVTemplate);
     
-    // Verify templates were updated
-    expect(settingsService.getTemplates()).toHaveLength(2);
-    expect(settingsService.getTemplateById('template2')).toEqual({
-      id: 'template2',
-      name: 'Template 2',
-      content: '# Template 2 Content',
-    });
+    // Verify templates were updated (count should increase by 1)
+    expect(settingsService.getTemplates()).toHaveLength(initialTemplateCount + 1);
     
-    // Remove a template
-    const settings = settingsService.getSettings();
-    settingsService.updateSettings({
-      ...settings,
-      templates: settings.templates.filter(t => t.id !== 'template1')
-    });
+    // Verify the new template exists
+    const template = settingsService.getTemplateById('template2');
+    expect(template).toBeDefined();
+    expect(template?.name).toBe('Template 2');
+    expect(template?.content).toBe('# Template 2 Content');
     
-    // Verify template was removed
-    expect(settingsService.getTemplates()).toHaveLength(1);
-    expect(settingsService.getTemplateById('template1')).toBeUndefined();
+    // Delete the template we added
+    await settingsService.deleteTemplate('template2');
+    
+    // Verify we're back to the initial count
+    expect(settingsService.getTemplates()).toHaveLength(initialTemplateCount);
   });
 });

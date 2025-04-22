@@ -1,14 +1,18 @@
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   roots: ['<rootDir>/tests'],
   testMatch: ['**/*.test.ts'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', {
+      tsconfig: 'tsconfig.test.json'
+    }],
   },
   moduleNameMapper: {
     // Mock Obsidian API and other external dependencies
     '^obsidian$': '<rootDir>/tests/mocks/obsidian.ts',
+    // Mock the plugin instance to avoid circular dependencies
+    '\.\./core/plugin-instance': '<rootDir>/tests/mocks/plugin-instance.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   collectCoverage: true,

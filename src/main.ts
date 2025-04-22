@@ -100,7 +100,16 @@ export default class OhMyCVPlugin extends Plugin {
       id: COMMANDS.OPEN_CV_EDITOR,
       name: 'Open CV Editor',
       callback: () => {
-        this.activateCVEditorView();
+        this.activateCVEditorView(false);
+      }
+    });
+    
+    // Command to open CV in side panel
+    this.addCommand({
+      id: COMMANDS.OPEN_CV_SIDE_PANEL,
+      name: 'Open CV Preview in Side Panel',
+      callback: () => {
+        this.activateCVEditorView(true);
       }
     });
 
@@ -152,7 +161,7 @@ export default class OhMyCVPlugin extends Plugin {
    * Activate the CV editor view
    * Creates a new leaf if one doesn't exist
    */
-  async activateCVEditorView(): Promise<any> {
+  async activateCVEditorView(useSidePanel: boolean = false): Promise<any> {
     // Check if view already exists
     const leaves = this.app.workspace.getLeavesOfType(CV_EDITOR_VIEW_TYPE);
     
@@ -162,8 +171,16 @@ export default class OhMyCVPlugin extends Plugin {
       // Use as any to avoid type issues with the circular dependency
       return leaves[0].view as any;
     } else {
-      // Create new leaf
-      const leaf = this.app.workspace.getRightLeaf(false);
+      // Create new leaf - either in side panel or main area based on parameter
+      let leaf;
+      if (useSidePanel) {
+        // Use right side panel
+        leaf = this.app.workspace.getRightLeaf(false);
+      } else {
+        // Create in main workspace area (more space for editor and preview)
+        leaf = this.app.workspace.getLeaf(true);
+      }
+
       if (leaf) {
         await leaf.setViewState({
           type: CV_EDITOR_VIEW_TYPE,

@@ -387,6 +387,7 @@ export const FRONTMATTER_REGEX = /^---\n([\s\S]*?)\n---/;
  */
 export const COMMANDS = {
   OPEN_CV_EDITOR: 'open-cv-editor',
+  OPEN_CV_SIDE_PANEL: 'open-cv-side-panel',
   CREATE_NEW_CV: 'create-new-cv',
   EXPORT_TO_PDF: 'export-to-pdf',
   FORMAT_AS_CV_HEADING: 'format-as-cv-heading'
