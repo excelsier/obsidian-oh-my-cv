@@ -1,0 +1,12 @@
+{
+	"id": "obsidian-oh-my-cv",
+	"name": "Oh My CV",
+	"version": "0.1.0",
+	"minAppVersion": "0.15.0",
+	"description": "An Obsidian plugin for creating, editing, and exporting beautiful resumes from Markdown.",
+	"author": "OhMyCV Developer",
+	"authorUrl": "https://github.com/Renovamen/oh-my-cv",
+	"fundingUrl": "",
+	"isDesktopOnly": false,
+	"repo": "excelsier/obsidian-oh-my-cv"
+}
