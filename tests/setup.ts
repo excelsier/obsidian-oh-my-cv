@@ -1,6 +1,6 @@
 // Jest setup file
 // This runs before each test file
-import '@jest/globals';
+import { beforeAll, afterAll } from '@jest/globals';
 
 // Global setup code
 beforeAll(() => {

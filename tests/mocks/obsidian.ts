@@ -7,8 +7,8 @@ import { jest } from '@jest/globals';
 // Helper type for mocking functions
 type MockFunction<T extends (...args: any) => any> = jest.MockedFunction<T>;
 
-// For any functions where we don't care about the signature
-const mockFn = <T = any, R = any>(): MockFunction<(arg: T) => R> => jest.fn();
+// For any functions where we don't care about the signature - with improved typing
+const mockFn = <T = any, R = any>(): MockFunction<(...args: T[]) => R> => jest.fn();
 
 
 // App and Plugin mocks
@@ -36,12 +36,12 @@ export class Plugin {
     this.id = manifest.id;
   }
 
-  loadData = jest.fn().mockResolvedValue({});
-  saveData = jest.fn().mockResolvedValue(undefined);
-  registerView = jest.fn();
-  addRibbonIcon = jest.fn();
-  addCommand = jest.fn();
-  registerEvent = jest.fn();
+  loadData = jest.fn<() => Promise<any>>().mockResolvedValue({});
+  saveData = jest.fn<(data: any) => Promise<void>>().mockResolvedValue(undefined);
+  registerView = jest.fn<(type: string, viewCreator: any) => void>();
+  addRibbonIcon = jest.fn<(icon: string, title: string, callback: () => void) => HTMLElement>();
+  addCommand = jest.fn<(command: any) => void>();
+  registerEvent = jest.fn<(event: any) => void>();
 }
 
 // Forward declaration to break circular dependency
@@ -50,22 +50,22 @@ let mockTFile: any;
 // File system mocks
 export class Vault {
   adapter = {
-    exists: jest.fn().mockResolvedValue(true),
-    read: jest.fn().mockResolvedValue(''),
-    write: jest.fn().mockResolvedValue(undefined),
-    readBinary: jest.fn().mockResolvedValue(new ArrayBuffer(0)),
-    writeBinary: jest.fn().mockResolvedValue(undefined),
-    getResourcePath: jest.fn().mockReturnValue(''),
-    mkdir: jest.fn().mockResolvedValue(undefined),
+    exists: jest.fn<(path: string) => Promise<boolean>>().mockResolvedValue(true),
+    read: jest.fn<(path: string) => Promise<string>>().mockResolvedValue(''),
+    write: jest.fn<(path: string, data: string) => Promise<void>>().mockResolvedValue(undefined),
+    readBinary: jest.fn<(path: string) => Promise<ArrayBuffer>>().mockResolvedValue(new ArrayBuffer(0)),
+    writeBinary: jest.fn<(path: string, data: ArrayBuffer) => Promise<void>>().mockResolvedValue(undefined),
+    getResourcePath: jest.fn<(path: string) => string>().mockReturnValue(''),
+    mkdir: jest.fn<(path: string) => Promise<void>>().mockResolvedValue(undefined),
   };
 
-  create = jest.fn().mockImplementation(() => Promise.resolve(mockTFile));
-  createBinary = jest.fn().mockImplementation(() => Promise.resolve(mockTFile));
-  delete = jest.fn().mockResolvedValue(undefined);
-  read = jest.fn().mockResolvedValue('');
-  cachedRead = jest.fn().mockResolvedValue('');
-  getFiles = jest.fn().mockReturnValue([]);
-  getMarkdownFiles = jest.fn().mockReturnValue([]);
+  create = jest.fn<(path: string, data: string) => Promise<any>>().mockImplementation(() => Promise.resolve(mockTFile));
+  createBinary = jest.fn<(path: string, data: ArrayBuffer) => Promise<any>>().mockImplementation(() => Promise.resolve(mockTFile));
+  delete = jest.fn<(file: any) => Promise<void>>().mockResolvedValue(undefined);
+  read = jest.fn<(file: any) => Promise<string>>().mockResolvedValue('');
+  cachedRead = jest.fn<(file: any) => Promise<string>>().mockResolvedValue('');
+  getFiles = jest.fn<() => any[]>().mockReturnValue([]);
+  getMarkdownFiles = jest.fn<() => any[]>().mockReturnValue([]);
 }
 
 // Workspace mocks
@@ -135,12 +135,12 @@ export class WorkspaceLeaf {
     type: 'markdown',
     state: {},
   });
-  setViewState = jest.fn().mockResolvedValue(undefined);
-  getEphemeralState = jest.fn().mockReturnValue({});
-  setEphemeralState = jest.fn().mockReturnValue(undefined);
-  openFile = jest.fn().mockResolvedValue(undefined);
-  detach = jest.fn();
-  setRoot = jest.fn();
+  setViewState = jest.fn<(state: any) => Promise<void>>().mockResolvedValue(undefined);
+  getEphemeralState = jest.fn<() => Record<string, any>>().mockReturnValue({});
+  setEphemeralState = jest.fn<(state: Record<string, any>) => void>().mockReturnValue(undefined);
+  openFile = jest.fn<(file: any) => Promise<void>>().mockResolvedValue(undefined);
+  detach = jest.fn<() => void>();
+  setRoot = jest.fn<(root: any) => void>();
 }
 
 export class ItemView {
@@ -149,14 +149,14 @@ export class ItemView {
   navigation = true;
   app: App = new App();
   
-  onload = jest.fn();
-  onunload = jest.fn();
-  getViewType = jest.fn().mockReturnValue('');
-  getDisplayText = jest.fn().mockReturnValue('');
-  getIcon = jest.fn().mockReturnValue('');
-  setState = jest.fn().mockResolvedValue(undefined);
-  onPaneMenu = jest.fn();
-  onHeaderMenu = jest.fn();
+  onload = jest.fn<() => void>();
+  onunload = jest.fn<() => void>();
+  getViewType = jest.fn<() => string>().mockReturnValue('');
+  getDisplayText = jest.fn<() => string>().mockReturnValue('');
+  getIcon = jest.fn<() => string>().mockReturnValue('');
+  setState = jest.fn<(state: any) => Promise<void>>().mockResolvedValue(undefined);
+  onPaneMenu = jest.fn<(menu: any) => void>();
+  onHeaderMenu = jest.fn<(menu: any) => void>();
 }
 
 export class MarkdownView {

@@ -12,29 +12,7 @@ export const PLUGIN_NAME = 'Oh My CV';
 /** CV Editor view type identifier */
 export const CV_EDITOR_VIEW_TYPE = 'oh-my-cv-editor-view';
 
-/** Default plugin settings */
-export const DEFAULT_SETTINGS: OhMyCVSettings = {
-  defaultPageSize: 'A4',
-  defaultMargins: {
-    top: 20,
-    right: 20,
-    bottom: 20,
-    left: 20
-  },
-  defaultThemeColor: '#4051b5',
-  defaultFontFamily: 'Inter, sans-serif',
-  defaultFontSize: 10,
-  defaultLineHeight: 1.5,
-  enableCustomCss: false,
-  defaultCustomCss: '',
-  autoCasing: true,
-  texSupport: true,
-  showPageBreaks: true,
-  iconSupport: true,
-  googleFontsApiKey: '',
-  recentlyUsedFonts: ['Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat'],
-  templates: getDefaultTemplates()
-};
+// Default settings will be exported at the end of file
 
 /** Default file extension for CV files */
 export const CV_FILE_EXTENSION = '.cv.md';
@@ -381,6 +359,32 @@ Product Design, User Research, Wireframing, Prototyping, Figma, Sketch, Adobe Cr
  * Regular expressions for parsing CV files
  */
 export const FRONTMATTER_REGEX = /^---\n([\s\S]*?)\n---/;
+
+/**
+ * Initialize and export DEFAULT_SETTINGS after all dependencies are defined
+ */
+export const DEFAULT_SETTINGS: OhMyCVSettings = {
+  defaultPageSize: 'A4',
+  defaultMargins: {
+    top: 20,
+    right: 20,
+    bottom: 20,
+    left: 20
+  },
+  defaultThemeColor: '#4051b5',
+  defaultFontFamily: 'Inter, sans-serif',
+  defaultFontSize: 10,
+  defaultLineHeight: 1.5,
+  enableCustomCss: false,
+  defaultCustomCss: '',
+  autoCasing: true,
+  texSupport: true,
+  showPageBreaks: true,
+  iconSupport: true,
+  googleFontsApiKey: '',
+  recentlyUsedFonts: ['Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat'],
+  templates: getDefaultTemplates()
+};
 
 /**
  * Command IDs
