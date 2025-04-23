@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-oh-my-cv",
 	"name": "Oh My CV",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"minAppVersion": "0.15.0",
 	"description": "An Obsidian plugin for creating, editing, and exporting beautiful resumes from Markdown with enhanced PDF export capabilities.",
 	"author": "OhMyCV Developer",
