@@ -174,17 +174,20 @@ export default class OhMyCVPlugin extends Plugin {
       // Create new leaf - either in side panel or main area based on parameter
       let leaf;
       if (useSidePanel) {
-        // Use right side panel
-        leaf = this.app.workspace.getRightLeaf(false);
+        // Create a proper side panel leaf using split
+        leaf = this.app.workspace.getLeaf('split', 'vertical');
       } else {
         // Create in main workspace area (more space for editor and preview)
-        leaf = this.app.workspace.getLeaf(true);
+        leaf = this.app.workspace.getLeaf('tab');
       }
 
       if (leaf) {
         await leaf.setViewState({
           type: CV_EDITOR_VIEW_TYPE,
-          active: true
+          active: true,
+          state: {
+            isSidePanel: useSidePanel
+          }
         });
         
         this.app.workspace.revealLeaf(leaf);

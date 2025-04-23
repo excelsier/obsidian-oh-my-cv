@@ -78,8 +78,11 @@ export class CVEditorView extends ItemView {
       this.contentEl.addClass('oh-my-cv-container');
       this.mainContainerEl = this.contentEl;
       
-      // Determine if we're in side panel mode by checking width
-      const isSidePanel = this.contentEl.clientWidth < 500;
+      // Get side panel mode from view state
+      const state = this.getState();
+      const isSidePanel = state?.isSidePanel === true;
+      
+      // Apply side panel specific styling if needed
       if (isSidePanel) {
         this.contentEl.addClass('oh-my-cv-side-panel');
       }
@@ -87,7 +90,7 @@ export class CVEditorView extends ItemView {
       // Create the header
       this.createHeader();
       
-      // Create the main content area
+      // Create the main content area with correct layout
       this.createMainContent(isSidePanel);
       
       // Create the status bar
@@ -134,10 +137,12 @@ export class CVEditorView extends ItemView {
         overflow: hidden;
       }
       
+      /* Side panel specific styles */
       .oh-my-cv-side-panel {
         font-size: 0.85em;
       }
       
+      /* Main layout container */
       .oh-my-cv-main-content {
         display: flex;
         flex-direction: row;
@@ -146,10 +151,12 @@ export class CVEditorView extends ItemView {
         height: calc(100% - 100px);
       }
       
+      /* Vertical layout for side panel */
       .oh-my-cv-side-panel-content {
         flex-direction: column;
       }
       
+      /* Editor and preview containers */
       .oh-my-cv-editor-container,
       .oh-my-cv-preview-container {
         flex: 1;
@@ -157,10 +164,31 @@ export class CVEditorView extends ItemView {
         overflow: auto;
       }
       
+      /* Side panel specific container adjustments */
       .oh-my-cv-side-panel-editor,
       .oh-my-cv-side-panel-preview {
         width: 100%;
-        max-height: 40%;
+        height: auto;
+        min-height: 200px;
+        max-height: 45%;
+      }
+      
+      /* Side panel toolbar adjustments */
+      .oh-my-cv-side-panel-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 5px 0;
+      }
+      
+      /* Side panel template selector adjustments */
+      .oh-my-cv-side-panel-selector {
+        font-size: 0.9em;
+      }
+      
+      /* Make sure buttons fit in the side panel */
+      .oh-my-cv-side-panel .oh-my-cv-toolbar button {
+        padding: 4px;
+        margin: 2px;
       }
       
       .oh-my-cv-editor {
@@ -244,13 +272,17 @@ export class CVEditorView extends ItemView {
   private createMainContent(isSidePanel: boolean = false): void {
     const mainContentEl = this.contentEl.createDiv({ cls: 'oh-my-cv-main-content' });
     
+    // Apply special class for side panel mode to change layout to vertical
+    if (isSidePanel) {
+      mainContentEl.addClass('oh-my-cv-side-panel-content');
+    }
+    
     // Create editor container
     const editorContainerEl = mainContentEl.createDiv({ cls: 'oh-my-cv-editor-container' });
     editorContainerEl.createEl('h3', { text: 'Markdown Editor' });
     
     // Modify layout based on whether we're in side panel mode
     if (isSidePanel) {
-      mainContentEl.addClass('oh-my-cv-side-panel-content');
       editorContainerEl.addClass('oh-my-cv-side-panel-editor');
     }
     
@@ -260,14 +292,23 @@ export class CVEditorView extends ItemView {
       attr: { spellcheck: 'true' } 
     });
     
-    // Add template selector to editor container
-    const templateSelectorContainer = editorContainerEl.createDiv({ cls: 'oh-my-cv-template-selector-wrapper' });
+    // Add template selector - in side panel, make it more compact
+    const templateSelectorContainer = editorContainerEl.createDiv({
+      cls: isSidePanel ? 
+        'oh-my-cv-template-selector-wrapper oh-my-cv-side-panel-selector' : 
+        'oh-my-cv-template-selector-wrapper'
+    });
+    
     new TemplateSelector(templateSelectorContainer, (template) => {
       this.applyTemplate(template.id);
     });
     
     // Toolbar for formatting
-    this.toolbarEl = editorContainerEl.createDiv({ cls: 'oh-my-cv-toolbar' });
+    this.toolbarEl = editorContainerEl.createDiv({
+      cls: isSidePanel ? 
+        'oh-my-cv-toolbar oh-my-cv-side-panel-toolbar' : 
+        'oh-my-cv-toolbar'
+    });
     this.createToolbar();
     
     // Create preview container
